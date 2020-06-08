@@ -18,8 +18,8 @@ class Store {
 }
 
 
-const simpleDiscount: SimpleDiscount = new SimpleDiscount();
-const specialDiscount: SpecialDiscount = new SpecialDiscount();
+const simpleDiscount: Discount = new SimpleDiscount();
+const specialDiscount: Discount = new SpecialDiscount();
 
 const store: Store = new Store(specialDiscount);
 
