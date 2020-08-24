@@ -1,0 +1,16 @@
+{
+  "name": "jest-tutorial",
+  "version": "1.0.0",
+  "description": "Test using jest",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "keywords": [
+    "test",
+    "jest"
+  ],
+  "dependencies": {
+    "jest": "^26.4.2"
+  }
+}
