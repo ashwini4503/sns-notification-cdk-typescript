@@ -12,5 +12,5 @@ test('Should throw an Error with division by 0', () => {
 });
 
 test('Should divide two numbers', () => {
-  expect(calc.divide(8, 2)).toBe(8);
+  expect(calc.divide(8, 2)).toBe(4);
 });
