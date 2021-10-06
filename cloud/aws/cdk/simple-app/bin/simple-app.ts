@@ -5,6 +5,7 @@ import { SimpleAppStack } from "../lib/simple-app-stack";
 import { SimpleNotificationStack } from "../lib/simple-notification-stack";
 import { SimpleQueueStack } from "../lib/simple-queue-stack";
 import { SimpleLambdaStack } from "../lib/simple-lambda-stack";
+import { SimpleTableStack } from "../lib/simple-table-stack";
 
 const app = new cdk.App();
 
@@ -43,6 +44,17 @@ bucketStack.addDependency(topicStack);
 const simpleLambdaStack: SimpleLambdaStack = new SimpleLambdaStack(
   app,
   "SimpleLambdaStack",
+  {
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION
+    }
+  }
+);
+
+const simpleTableStack: SimpleTableStack = new SimpleTableStack(
+  app,
+  "SimpleTableStack",
   {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
