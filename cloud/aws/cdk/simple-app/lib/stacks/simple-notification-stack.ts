@@ -5,6 +5,8 @@ import { EmailSubscription } from "@aws-cdk/aws-sns-subscriptions";
 import { Effect, PolicyStatement, ServicePrincipal } from "@aws-cdk/aws-iam";
 
 export class SimpleNotificationStack extends cdk.Stack {
+  public readonly topicNotificationArn: string;
+
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
@@ -13,6 +15,8 @@ export class SimpleNotificationStack extends cdk.Stack {
       topicName: "simple-notification",
       fifo: false,
     });
+
+    this.topicNotificationArn = topic.topicArn;
 
     topic.addToResourcePolicy(
       new PolicyStatement({
@@ -23,7 +27,7 @@ export class SimpleNotificationStack extends cdk.Stack {
       })
     );
 
-    topic.addSubscription(new EmailSubscription("nogab95955@tst999.com"));
+    topic.addSubscription(new EmailSubscription("jacosi8339@ofenbuy.com"));
 
     new CfnOutput(this, "OutputSimpleNotificationTopic", {
       description: "Simple notification topic arn",

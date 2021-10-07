@@ -1,18 +1,17 @@
 import * as cdk from "@aws-cdk/core";
 import { Bucket, EventType } from "@aws-cdk/aws-s3";
 import { Topic, ITopic } from "@aws-cdk/aws-sns";
-import { Fn } from "@aws-cdk/core";
 import { SnsDestination } from "@aws-cdk/aws-s3-notifications";
 
-export interface SimpleAppStackProps extends cdk.StackProps {
-  topicExportNameArn: string;
+export interface SimpleBucketStackProps extends cdk.StackProps {
+  topicNotificationArn: string;
 }
 
-export class SimpleAppStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: SimpleAppStackProps) {
+export class SimpleBucketStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: SimpleBucketStackProps) {
     super(scope, id, props);
 
-    if (!props?.topicExportNameArn) {
+    if (!props?.topicNotificationArn) {
       throw new Error("Missing topic arn");
     }
 
@@ -20,7 +19,7 @@ export class SimpleAppStack extends cdk.Stack {
     const topic: ITopic = Topic.fromTopicArn(
       this,
       "ImportedTopic",
-      Fn.importValue(props.topicExportNameArn)
+      props.topicNotificationArn
     );
 
     // Create bucket

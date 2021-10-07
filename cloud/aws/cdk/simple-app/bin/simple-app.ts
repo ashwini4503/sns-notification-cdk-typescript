@@ -1,25 +1,18 @@
 #!/usr/bin/env node
 import "source-map-support/register";
 import * as cdk from "@aws-cdk/core";
-import { SimpleAppStack } from "../lib/simple-app-stack";
-import { SimpleNotificationStack } from "../lib/simple-notification-stack";
-import { SimpleQueueStack } from "../lib/simple-queue-stack";
-import { SimpleLambdaStack } from "../lib/simple-lambda-stack";
-import { SimpleTableStack } from "../lib/simple-table-stack";
+import { SimpleBucketStack } from "../lib/stacks/simple-bucket-stack";
+import { SimpleNotificationStack } from "../lib/stacks/simple-notification-stack";
+import { SimpleQueueStack } from "../lib/stacks/simple-queue-stack";
+import { SimpleLambdaStack } from "../lib/stacks/simple-lambda-stack";
+import { SimpleTableStack } from "../lib/stacks/simple-table-stack";
+
 
 const app = new cdk.App();
 
-const bucketStack: SimpleAppStack = new SimpleAppStack(app, "SimpleAppStack", {
-  topicExportNameArn: "simple-notification-topic:arn",
-  env: {
-    account: process.env.CDK_DEFAULT_ACCOUNT,
-    region: process.env.CDK_DEFAULT_REGION
-  }
-});
-
 const topicStack: SimpleNotificationStack = new SimpleNotificationStack(
   app,
-  "SimpleNotificationStack",
+  "SimpleTopicNotificationStack",
   {
     env: {
       account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -27,6 +20,17 @@ const topicStack: SimpleNotificationStack = new SimpleNotificationStack(
     }
   }
 );
+
+const bucketStack: SimpleBucketStack = new SimpleBucketStack(
+  app,
+  "SimpleBucketStack",
+  {
+    topicNotificationArn: topicStack.topicNotificationArn,
+    env: {
+      account: process.env.CDK_DEFAULT_ACCOUNT,
+      region: process.env.CDK_DEFAULT_REGION
+    }
+  });
 
 const queueStack: SimpleQueueStack = new SimpleQueueStack(
   app,
@@ -38,8 +42,6 @@ const queueStack: SimpleQueueStack = new SimpleQueueStack(
     }
   }
 );
-
-bucketStack.addDependency(topicStack);
 
 const simpleLambdaStack: SimpleLambdaStack = new SimpleLambdaStack(
   app,
@@ -62,3 +64,6 @@ const simpleTableStack: SimpleTableStack = new SimpleTableStack(
     }
   }
 );
+
+// Define dependency
+bucketStack.addDependency(topicStack);

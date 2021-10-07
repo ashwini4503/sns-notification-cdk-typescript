@@ -10,7 +10,7 @@ export class SimpleLambdaStack extends cdk.Stack {
       runtime: Runtime.NODEJS_14_X,
       functionName: "simple-lambda",
       handler: "index.handler",
-      code: Code.fromAsset(path.join(__dirname, "assets/simple-lambda"))
+      code: Code.fromAsset(path.join(__dirname, "../assets/simple-lambda"))
     });
   }
 }
